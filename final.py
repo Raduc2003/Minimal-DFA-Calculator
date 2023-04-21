@@ -10,7 +10,7 @@ class Node:
 
 states = []
 # data parsing starile trebuie sa fie in ordine 1,2,3,4...
-f = open("LFA2 -MINIMAL DFA\input.txt")
+f = open("LFA2 -MINIMAL DFA\Minimal-DFA-Calculator\input.txt")
 n = int(f.readline().split(" ")[0])
 for i in range(n):
     states.append(Node('q'+str(i)))
@@ -21,11 +21,12 @@ final_states = [int(x[1]) for x in lines[-1].split(" ")]
 for line in lines[:-1]:
     line = line.strip().split(" ")
     states[int(line[0][1])].next[line[1]] = line[2]
+print("Original DFA: ")
 for state in states:
     state.out()
 print("initial state", initial_state)
 print("final states", final_states)
-
+print()
 # initial partitions (indexes)
 partitions = []
 partitions.append(set([x for x in range(n)]).difference(set(final_states)))
@@ -78,8 +79,9 @@ def partitioner(partitions):
         if not partition_found:
             return [partition for partition in new_partitions if partition]
 
-
+print("partitioning")
 print(partitioner(partitions))
+print()
 partitions=partitioner(partitions)
 def build_dfa(partitions, states,initial_state, final_states):
     new_states=[]
@@ -97,7 +99,9 @@ def build_dfa(partitions, states,initial_state, final_states):
                 new_final_states.append(i)
     return new_states,new_inital_state,new_final_states
 new_states,new_inital_state,new_final_states = build_dfa(partitions, states, initial_state, final_states)
+print("Minimal DFA: ")
 for state in new_states:
     state.out()
 print("initial state: ",new_inital_state)
 print("final states: ",new_final_states)
+print()
